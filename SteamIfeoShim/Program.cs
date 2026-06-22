@@ -6,7 +6,6 @@ internal static class Program
     private const string PipeName = "SteamIfeoFlagService";
     private const string SteamPath = @"C:\Program Files (x86)\Steam\steam.exe";
     private static readonly string[] RequiredFlags = ["-dev", "-cef-enable-debugging"];
-    private const int DisableWindowMilliseconds = 4000;
 
     public static int Main(string[] args)
     {
@@ -26,12 +25,12 @@ internal static class Program
     private static void RequestTemporaryDisable()
     {
         using var pipe = new NamedPipeClientStream(".", PipeName, PipeDirection.InOut);
-        ConnectWithRetry(pipe, TimeSpan.FromSeconds(10));
+        pipe.Connect(5000);
 
         using var reader = new StreamReader(pipe, leaveOpen: true);
         using var writer = new StreamWriter(pipe, leaveOpen: true) { AutoFlush = true };
 
-        writer.WriteLine($"TEMP_DISABLE {DisableWindowMilliseconds}");
+        writer.WriteLine("TEMP_DISABLE 7000");
         var response = reader.ReadLine();
         if (!string.Equals(response, "OK", StringComparison.Ordinal))
         {
@@ -39,44 +38,8 @@ internal static class Program
         }
     }
 
-    private static void ConnectWithRetry(NamedPipeClientStream pipe, TimeSpan timeout)
-    {
-        var deadline = DateTimeOffset.UtcNow + timeout;
-        Exception? lastError = null;
-
-        while (DateTimeOffset.UtcNow < deadline)
-        {
-            try
-            {
-                pipe.Connect(500);
-                return;
-            }
-            catch (TimeoutException ex)
-            {
-                lastError = ex;
-            }
-            catch (IOException ex)
-            {
-                lastError = ex;
-                Thread.Sleep(100);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                lastError = ex;
-                Thread.Sleep(100);
-            }
-        }
-
-        throw new TimeoutException("Timed out connecting to SteamIfeoFlagService.", lastError);
-    }
-
     private static void StartSteam(string[] originalArgs)
     {
-        if (!File.Exists(SteamPath))
-        {
-            throw new FileNotFoundException("Steam was not found at the expected path.", SteamPath);
-        }
-
         var launchArgs = new List<string>();
         foreach (var arg in originalArgs)
         {
