@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SteamIfeoService/SteamIfeoService.csproj" />
+  <Project Path="SteamIfeoShim/SteamIfeoShim.csproj" />
+</Solution>
