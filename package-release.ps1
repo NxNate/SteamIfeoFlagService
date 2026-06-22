@@ -19,6 +19,8 @@ Copy-Item -LiteralPath (Join-Path $root "publish\shim\SteamIfeoShim.exe") -Desti
 Copy-Item -LiteralPath (Join-Path $root "publish\service\SteamIfeoService.exe") -Destination $packageRoot -Force
 Copy-Item -LiteralPath (Join-Path $root "install-steam-ifeo-service.ps1") -Destination $packageRoot -Force
 Copy-Item -LiteralPath (Join-Path $root "uninstall-steam-ifeo-service.ps1") -Destination $packageRoot -Force
+Copy-Item -LiteralPath (Join-Path $root "Install.bat") -Destination $packageRoot -Force
+Copy-Item -LiteralPath (Join-Path $root "Uninstall.bat") -Destination $packageRoot -Force
 Copy-Item -LiteralPath (Join-Path $root "README.md") -Destination $packageRoot -Force
 
 $installHere = @'
@@ -50,10 +52,9 @@ $quickStart = @"
 1. Extract this zip somewhere permanent, for example:
    C:\Tools\SteamIfeoFlagService
 
-2. Open PowerShell as Administrator in the extracted folder.
+2. Double-click Install.bat.
 
-3. Install:
-   powershell -ExecutionPolicy Bypass -File .\install-here.ps1
+3. Approve the UAC prompt.
 
 4. Start Steam normally.
 
@@ -61,7 +62,7 @@ $quickStart = @"
    Invoke-RestMethod http://127.0.0.1:8080/json
 
 Uninstall from the same extracted folder:
-   powershell -ExecutionPolicy Bypass -File .\install-here.ps1 -Uninstall
+   Double-click Uninstall.bat.
 "@
 
 Set-Content -LiteralPath (Join-Path $packageRoot "QUICKSTART.md") -Value $quickStart -Encoding UTF8

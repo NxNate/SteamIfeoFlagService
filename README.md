@@ -65,17 +65,11 @@ powershell -ExecutionPolicy Bypass -File .\install-steam-ifeo-service.ps1 -Servi
 
 ## Install From Release Zip
 
-Download the latest `SteamIfeoFlagService-*-win-x64.zip` release, extract it somewhere permanent, then run PowerShell as Administrator in the extracted folder:
+Download the latest `SteamIfeoFlagService-*-win-x64.zip` release and extract it somewhere permanent.
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\install-here.ps1
-```
+Double-click `Install.bat`, then approve the UAC prompt.
 
-Uninstall from the same extracted folder:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\install-here.ps1 -Uninstall
-```
+To remove it later, double-click `Uninstall.bat`.
 
 ## Verify
 
