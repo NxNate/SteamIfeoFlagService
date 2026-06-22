@@ -63,6 +63,20 @@ With a custom service directory:
 powershell -ExecutionPolicy Bypass -File .\install-steam-ifeo-service.ps1 -ServiceDir "C:\Tools\SteamIfeoFlagService"
 ```
 
+## Install From Release Zip
+
+Download the latest `SteamIfeoFlagService-*-win-x64.zip` release, extract it somewhere permanent, then run PowerShell as Administrator in the extracted folder:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install-here.ps1
+```
+
+Uninstall from the same extracted folder:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install-here.ps1 -Uninstall
+```
+
 ## Verify
 
 Start Steam normally, then check:
